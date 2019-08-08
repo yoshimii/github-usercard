@@ -21,6 +21,14 @@ axios.get("https://api.github.com/users/yoshimii")
     this.console.log(err);
   })
 
+  // .then( (response)=>{
+  //   axios.get()
+  //   this.console.log(response);
+  
+  //   // response.data.followers.forEach(item => {
+
+  //   // })
+  // })
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
@@ -49,10 +57,12 @@ function UserCard(user) {
       location.textContent = user.data.location;
 
       const profile = document.createElement('p');
-      profile.textContent = "Profile:";
+      profile.textContent = `Profile: `;
         
         const github = document.createElement('a');
-        github.src = user.data.url;
+        github.setAttribute('href', user.data.html_url);
+        github.textContent = 'GitHub';
+        github.style.textDecoration = "none";
     
       const followers = document.createElement('p');
       followers.textContent = `Followers: ${user.data.followers}`;//insert follower number
@@ -102,6 +112,17 @@ followersArray.forEach( item => {
     this.console.log(err);
   })
 })
+
+
+// axios.get("https://api.github.com/users/yoshimii/followers")
+
+// .then( (response)=>{
+//   this.console.log(response);
+// })
+
+// .catch( (err) => {
+//   this.console.log(err);
+// })
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
