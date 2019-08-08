@@ -14,21 +14,47 @@ axios.get("https://api.github.com/users/yoshimii")
     this.console.log(response);
       let newUser = UserCard(response);
       entryPoint.appendChild(newUser);
-    
+      return response.data.followers_url;
     // this.console.log(response.data.name);
   })
+
+  .then( (response)=>{   
+    axios.get(`${response}`)
+    .then ( (response) => {
+     response.data.forEach(element => {
+      axios.get(`https://api.github.com/users/${element.name}`)
+      .then ((response)=> {
+       response.forEach(element => {
+         this.console.log(element)
+       })
+      })
+     })
+
+      // console.log(response)
+      // responseArray.forEach(element => {
+      //   // axios.get(`https://api.github.com/users/${element.name}`)
+      //   // this.console.log(element.name)
+      //   // let follower = UserCard(element);
+      //   // entryPoint.appendChild(follower)
+      //   this.console.log(element)
+      // })
+      
+    })
+
+    .catch((err) => {
+        this.console.log(err);
+      })
+
+})
+  
+
+
+
   .catch((err) => {
     this.console.log(err);
   })
 
-  // .then( (response)=>{
-  //   axios.get()
-  //   this.console.log(response);
-  
-  //   // response.data.followers.forEach(item => {
 
-  //   // })
-  // })
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
@@ -39,7 +65,7 @@ function UserCard(user) {
 
     const newImage = document.createElement('img');
     newImage.classList.add('user-image');
-    newImage.src = user.data.avatar_url;
+    newImage.src = user.data.avatar_url || user.avatar_url;
     // newImage.style.objectFit = "scale";
 
     const cardInfo = document.createElement('div');
@@ -98,20 +124,20 @@ let entryPoint= document.querySelector('.cards');
           user, and adding that card to the DOM.
 */
 
-const followersArray = ["zmughal", "briannakeune", "sethnadu", "MSquared88", "deegrams221"];
+// const followersArray = ["zmughal", "briannakeune", "sethnadu", "MSquared88", "deegrams221"];
 
-followersArray.forEach( item => {
-  axios.get(`https://api.github.com/users/${item}`)
+// followersArray.forEach( item => {
+//   axios.get(`https://api.github.com/users/${item}`)
 
-  .then( (response) => {
-    let follower = UserCard(response);
-    entryPoint.appendChild(follower);
-  })
+//   .then( (response) => {
+//     let follower = UserCard(response);
+//     entryPoint.appendChild(follower);
+//   })
 
-  .catch((err) => {
-    this.console.log(err);
-  })
-})
+//   .catch((err) => {
+//     this.console.log(err);
+//   })
+// })
 
 
 // axios.get("https://api.github.com/users/yoshimii/followers")
