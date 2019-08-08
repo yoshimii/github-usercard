@@ -2,7 +2,7 @@ window.addEventListener('load', function (){/* Step 1: using axios, send a GET r
            (replacing the palceholder with your Github name):
            https://api.github.com/users/yoshimii
 */
-// axios.get("https://api.github.com/users/yoshimii")
+axios.get("https://api.github.com/users/yoshimii")
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -10,40 +10,69 @@ window.addEventListener('load', function (){/* Step 1: using axios, send a GET r
    Skip to Step 3.
 */
 
-  // .then( (response)=>{
-  //   this.console.log(response);
-  //     let newUser = UserCard(response.data.avatar_url, response.data.name, response.data.bio);
-  //     entryPoint.appendChild(newUser);
+  .then( (response)=>{
+    this.console.log(response);
+      let newUser = UserCard(response);
+      entryPoint.appendChild(newUser);
     
-  //   this.console.log(response.data.name);
-  // })
-  // .catch((err) => {
-  //   this.console.log(err);
-  // })
+    // this.console.log(response.data.name);
+  })
+  .catch((err) => {
+    this.console.log(err);
+  })
 
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
 
-function UserCard(userImage, userName, userBio) {
+function UserCard(user) {
   const newCard = document.createElement('div');
-  newCard.classList.add('user-card');
+  newCard.classList.add('card');
 
-  const newImage = document.createElement('img');
-  newImage.classList.add('user-image');
-  newImage.src = userImage;
+    const newImage = document.createElement('img');
+    newImage.classList.add('user-image');
+    newImage.src = user.data.avatar_url;
+    // newImage.style.objectFit = "scale";
 
-  const name = document.createElement('h2');
-  name.classList.add('user-name');
-  name.textContent = userName;
+    const cardInfo = document.createElement('div');
+    cardInfo.classList.add('card-info');
 
-  const about = document.createElement('p');
-  about.classList.add('user-bio');
-  about.textContent = userBio;
+      const name = document.createElement('h3');
+      name.classList.add('name');
+      name.textContent = user.data.name;
+
+     const userName = document.createElement('p');
+      userName.classList.add('username');
+      userName.textContent = user.data.login; 
+
+      const location = document.createElement('p');
+      location.textContent = user.data.location;
+
+      const profile = document.createElement('p');
+      profile.textContent = "Profile:";
+        
+        const github = document.createElement('a');
+        github.src = user.data.url;
+    
+      const followers = document.createElement('p');
+      followers.textContent = `Followers: ${user.data.followers}`;//insert follower number
+      
+      const following = document.createElement('p');
+      following.textContent = `Following: ${user.data.following}`;
+
+      const bio = document.createElement('p');;
+      bio.textContent = `Bio: ${user.data.bio}`;
 
   newCard.appendChild(newImage);
-  newCard.appendChild(name);
-  newCard.appendChild(about)
+  newCard.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(github);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
   return newCard;
 }
 
@@ -65,8 +94,8 @@ followersArray.forEach( item => {
   axios.get(`https://api.github.com/users/${item}`)
 
   .then( (response) => {
-    // UserCard(response);
-    this.console.log(response);
+    let follower = UserCard(response);
+    entryPoint.appendChild(follower);
   })
 
   .catch((err) => {
