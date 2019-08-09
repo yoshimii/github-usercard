@@ -18,7 +18,6 @@ axios.get("https://api.github.com/users/yoshimii")
  
   })
 
-
 .then((response)=> {
   axios.get(`${response}`)
   .then( (response)=> {
@@ -35,8 +34,6 @@ axios.get("https://api.github.com/users/yoshimii")
       
     })
 })
-
-
 
     .catch((err) => {
       this.console.log(err);
@@ -112,35 +109,6 @@ let entryPoint= document.querySelector('.cards');
 
 // const followersArray = ["zmughal", "briannakeune", "sethnadu", "MSquared88", "deegrams221"];
 
-
-
-
-// .then((response)=>{
-//   this.console.log(response);
-// })
-// response.forEach( item => {
-//   axios.get(`https://api.github.com/users/${item}`)
-
-//   .then( (response) => {
-//     
-//   })
-
-//   .catch((err) => {
-//     this.console.log(err);
-//   })
-// })
-
-
-
-
-// .then( (response)=>{
-//   this.console.log(response);
-// })
-
-// .catch( (err) => {
-//   this.console.log(err);
-// })
-
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -168,6 +136,13 @@ let entryPoint= document.querySelector('.cards');
   luishrd
   bigknell
 */
+const followersArray = ["zmughal", "briannakeune", "sethnadu", "MSquared88", "deegrams221"];
+axios.get("https://api.github.com/users/yoshimii/followers")
+
+.then((response)=>{
+  this.console.log(response);
+})
+
 })
 
 
