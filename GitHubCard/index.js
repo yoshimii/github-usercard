@@ -15,46 +15,32 @@ axios.get("https://api.github.com/users/yoshimii")
       let newUser = UserCard(response);
       entryPoint.appendChild(newUser);
       return response.data.followers_url;
-    // this.console.log(response.data.name);
+ 
   })
 
-  .then( (response)=>{   
-    axios.get(`${response}`)
-    .then ( (response) => {
-     response.data.forEach(element => {
-      axios.get(`https://api.github.com/users/${element.name}`)
-      .then ((response)=> {
-       response.forEach(element => {
-         this.console.log(element)
-       })
-      })
-     })
 
-      // console.log(response)
-      // responseArray.forEach(element => {
-      //   // axios.get(`https://api.github.com/users/${element.name}`)
-      //   // this.console.log(element.name)
-      //   // let follower = UserCard(element);
-      //   // entryPoint.appendChild(follower)
-      //   this.console.log(element)
-      // })
+.then((response)=> {
+  axios.get(`${response}`)
+  .then( (response)=> {
+    response.data.forEach(item => {
+   
+   axios.get(`https://api.github.com/users/${item.login}`)
+  
+      .then((response)=> {
+        this.console.log(response);
+           let follower = UserCard(response);
+      entryPoint.appendChild(follower);
+        })
+      })   
       
     })
+})
+
+
 
     .catch((err) => {
-        this.console.log(err);
-      })
-
-})
-  
-
-
-
-  .catch((err) => {
-    this.console.log(err);
-  })
-
-
+      this.console.log(err);
+    })
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
@@ -126,12 +112,17 @@ let entryPoint= document.querySelector('.cards');
 
 // const followersArray = ["zmughal", "briannakeune", "sethnadu", "MSquared88", "deegrams221"];
 
-// followersArray.forEach( item => {
+
+
+
+// .then((response)=>{
+//   this.console.log(response);
+// })
+// response.forEach( item => {
 //   axios.get(`https://api.github.com/users/${item}`)
 
 //   .then( (response) => {
-//     let follower = UserCard(response);
-//     entryPoint.appendChild(follower);
+//     
 //   })
 
 //   .catch((err) => {
@@ -140,7 +131,7 @@ let entryPoint= document.querySelector('.cards');
 // })
 
 
-// axios.get("https://api.github.com/users/yoshimii/followers")
+
 
 // .then( (response)=>{
 //   this.console.log(response);
